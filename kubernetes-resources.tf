@@ -23,3 +23,23 @@ resource "kubernetes_namespace" "product" {
     name = var.product_namespace
   }
 }
+
+# Create secret to allow kubernetes access to the Container Registry
+resource "kubernetes_secret" "container-registry-secret" {
+  metadata {
+    name = "dockerconfigjson-ghcr"
+    namespace = var.product_namespace
+  }
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "ghcr.io" = {
+          "auth"     = base64encode("${var.ghcr_credentials}")
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+}
