@@ -32,13 +32,7 @@ resource "kubernetes_secret" "container-registry-secret" {
   }
 
   data = {
-    ".dockerconfigjson" = jsonencode({
-      auths = {
-        "ghcr.io" = {
-          "auth"     = base64encode("${var.ghcr_credentials}")
-        }
-      }
-    })
+    ".dockerconfigjson" = var.container_registry_credentials
   }
 
   type = "kubernetes.io/dockerconfigjson"

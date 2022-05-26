@@ -101,5 +101,4 @@ variable "istio_helm_chart_revision" {
 variable "container_registry_credentials" {
   description = "Credentials for the container registry so that k8s can pull application images"
   type        = string
-  sensitive   = true
 }
