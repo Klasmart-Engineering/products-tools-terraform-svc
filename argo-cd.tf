@@ -1,6 +1,6 @@
 resource "argocd_application" "microgateway" {
   metadata {
-    name      = "microgateway-${local.name_suffix}"
+    name      = "${var.project_namespace}-microgateway-${local.name_suffix}"
     namespace = var.argocd_namespace
     labels = {
       region = var.region
@@ -46,7 +46,7 @@ resource "argocd_application" "microgateway" {
 
 resource "argocd_application" "istio" {
   metadata {
-    name      = "istio-config-${local.name_suffix}"
+    name      = "${var.project_namespace}-istio-config-${local.name_suffix}"
     namespace = var.argocd_namespace
     labels = {
       region = var.region

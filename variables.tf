@@ -18,12 +18,6 @@ variable "service_owner" {
   type        = string
 }
 
-variable "project" {
-  description = "The Project name"
-  type        = string
-  default     = "data-services"
-}
-
 variable "tags" {
   description = "Any additional tags to add to resources deployed by this stack."
   type        = map(any)
