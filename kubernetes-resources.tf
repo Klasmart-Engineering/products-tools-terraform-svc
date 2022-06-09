@@ -1,33 +1,54 @@
-# data service database password secret
-/* resource "kubernetes_secret" "data_db" {
+# TODO: Rename this to product
+resource "kubernetes_namespace" "offering" {
   metadata {
-    name      = "data-service-db"
-    namespace = var.data_service_namespace
+    name = var.product_namespace
+  }
+}
+
+# Create secret to allow kubernetes to access terraform cloud
+resource "kubernetes_secret" "tfe-token" {
+  metadata {
+    name      = "terraformrc"
+    namespace = var.product_namespace
   }
 
   data = {
-    dataname = local.data_service_master_dataname
-    password = local.data_service_db_password
-    hostname = local.data_service_endpoint
-    db_port  = local.data_service_db_port
-    db_name  = local.data_service_db_name
+    "credentials" = "credentials app.terraform.io {token = \"${var.tfe_operator_access_token}\"}"
   }
-} */
-// Inject Secrets & Configuration Variables into kubernetes via secrets & config maps
+  type = "Opaque"
+}
 
 
-
-resource "kubernetes_namespace" "product" {
+# Create secret to populate tfc workspaces created by the operator with sensitive values
+resource "kubernetes_secret" "tfe-workspace" {
   metadata {
-    # TODO: Take the labels from the controller module output = they contain istio.io/rev for managing istio version
-    name = var.product_namespace
+    name      = "workspacesecrets"
+    namespace = var.product_namespace
+  }
+
+  data = {
+    aws_target_role_arn    = var.aws_target_role_arn
+    aws_session_name       = var.aws_session_name
+    aws_target_external_id = var.aws_target_external_id
+  }
+  type = "Opaque"
+}
+
+# Create config-map with non-sensitive terraform outputs for the tfe workspace
+resource "kubernetes_config_map" "tf-output" {
+  metadata {
+    name = "tf-output-${var.project}-${local.name_suffix}"
+  }
+
+  data = {
+    tfe_ssh_key_id = var.tfe_ssh_key_id
   }
 }
 
 # Create secret to allow kubernetes access to the Container Registry
 resource "kubernetes_secret" "container-registry-secret" {
   metadata {
-    name = "dockerconfigjson-ghcr"
+    name      = "dockerconfigjson-ghcr"
     namespace = var.product_namespace
   }
 

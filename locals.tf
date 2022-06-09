@@ -10,7 +10,7 @@ locals {
       OWNER_GROUP     = var.service_owner
       OWNER_SUB_GROUP = var.service_owner
       ENVIRONMENT     = var.project_environment
-      SERVICE_GROUP   = "subscriptions"
+      SERVICE_GROUP   = var.project
     }
   )
 
