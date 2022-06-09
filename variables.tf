@@ -123,7 +123,7 @@ variable "tfe_operator_helm_chart_version" {
 
 variable "terraform_argocd_apps" {
   description = "The argocd driven terraform applications"
-  type  = list
+  type        = list(any)
 }
 
 # Used by terraform operator

@@ -161,7 +161,7 @@ resource "argocd_application" "product-infra-workspaces" {
   spec {
     project = var.argocd_project
     source {
-      repo_url = var.helm_chart_url
+      repo_url        = var.helm_chart_url
       path            = "${local.project_environment}/${local.project_region}/infrastructure/${each.key}"
       target_revision = "main"
       helm {
