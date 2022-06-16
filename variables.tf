@@ -86,12 +86,12 @@ variable "argocd_app_names" {
   type        = list(any)
 }
 
-variable "helm_chart_url" {
+variable "gitops_repo_url" {
   description = "The repository url of the Helm chart"
   type        = string
 }
 
-variable "helm_chart_revision" {
+variable "gitops_revision" {
   description = "The git tag for the desired version of the helm chart"
   type        = string
   default     = "main"
