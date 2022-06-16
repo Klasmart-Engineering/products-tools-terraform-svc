@@ -81,18 +81,17 @@ variable "argocd_project" {
   default     = "data-services"
 }
 
+variable "argocd_app_names" {
+  description = "The names of the argocd applications"
+  type        = list(any)
+}
+
 variable "helm_chart_url" {
   description = "The repository url of the Helm chart"
   type        = string
 }
 
-variable "microgateway_helm_chart_revision" {
-  description = "The git tag for the desired version of the helm chart"
-  type        = string
-  default     = "main"
-}
-
-variable "istio_helm_chart_revision" {
+variable "helm_chart_revision" {
   description = "The git tag for the desired version of the helm chart"
   type        = string
   default     = "main"

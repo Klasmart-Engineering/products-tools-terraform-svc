@@ -18,7 +18,7 @@ resource "argocd_application" "applications" {
     source {
       repo_url        = var.helm_chart_url
       path            = "${local.project_environment}/${local.project_region}/manifests/${each.key}/"
-      target_revision = var.microgateway_helm_chart_revision
+      target_revision = var.helm_chart_revision
       helm {
         value_files = ["values.yaml"]
       }
