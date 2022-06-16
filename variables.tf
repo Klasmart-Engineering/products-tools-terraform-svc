@@ -81,7 +81,7 @@ variable "argocd_project" {
   default     = "data-services"
 }
 
-variable "argocd_app_names" {
+variable "argocd_applications" {
   description = "The names of the argocd applications"
   type        = list(any)
 }

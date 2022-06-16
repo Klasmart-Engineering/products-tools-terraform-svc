@@ -1,5 +1,5 @@
 resource "argocd_application" "applications" {
-  for_each = toset(var.argocd_app_names)
+  for_each = toset(var.argocd_applications)
   metadata {
     name      = "${each.key}-${local.name_suffix}"
     namespace = var.argocd_namespace
