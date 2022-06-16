@@ -142,3 +142,11 @@ variable "tfe_ssh_key_id" {
   description = "The SSH key id registered with TFE to clone private git repos"
   type        = string
 }
+
+variable "namespace_labels" {
+  description = "Labels to be applied to the namespace. Mainly used for Istio CNI"
+  type        = map(string)
+  default = {
+    "istio.io/rev" = "1.13.2"
+  }
+}

@@ -1,7 +1,8 @@
 # TODO: Rename this to product
 resource "kubernetes_namespace" "offering" {
   metadata {
-    name = var.product_namespace
+    name   = var.product_namespace
+    labels = var.namespace_labels
   }
 }
 
