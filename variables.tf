@@ -147,6 +147,6 @@ variable "namespace_labels" {
   description = "Labels to be applied to the namespace. Mainly used for Istio CNI"
   type        = map(string)
   default = {
-    "istio.io/rev" = "1.13.2"
+    "istio.io/rev" = "1-13-2"
   }
 }
