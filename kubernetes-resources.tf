@@ -65,7 +65,7 @@ resource "kubernetes_manifest" "terraform-operator-egress" {
     "apiVersion" = "networking.istio.io/v1beta1"
     "kind"       = "ServiceEntry"
     "metadata" = {
-      "name"      = "terraform-cloud"
+      "name"      = "terraform-operator"
       "namespace" = "istio-system"
     }
     "spec" = {
