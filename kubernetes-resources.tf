@@ -59,3 +59,29 @@ resource "kubernetes_secret" "container-registry-secret" {
 
   type = "kubernetes.io/dockerconfigjson"
 }
+
+resource "kubernetes_manifest" "terraform-operator-egress" {
+  manifest = {
+    "apiVersion" = "networking.istio.io/v1beta1"
+    "kind"       = "ServiceEntry"
+    "metadata" = {
+      "name"      = "terraform-cloud"
+      "namespace" = "istio-system"
+    }
+    "spec" = {
+      "hosts" = [
+        "app.terraform.io",
+        "archivist.terraform.io",
+      ]
+      "location" = "MESH_EXTERNAL"
+      "ports" = [
+        {
+          "name" = "https",
+          "number" = 443
+          "protocol" = "HTTPS"
+        }
+      ]
+      "resolution" = "DNS"
+    }
+  }
+}
