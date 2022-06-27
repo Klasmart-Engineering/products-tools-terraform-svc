@@ -150,3 +150,9 @@ variable "namespace_labels" {
     "istio.io/rev" = "1-13-2"
   }
 }
+
+variable "create_terraform_operator_egress" {
+  description = "Flag to create istio egress for terraform operator"
+  type        = bool
+  default     = false
+}

@@ -8,6 +8,9 @@ resource "kubernetes_namespace" "offering" {
 
 # Create secret to allow kubernetes to access terraform cloud
 resource "kubernetes_secret" "tfe-token" {
+  depends_on = [
+    kubernetes_namespace.offering
+  ]
   metadata {
     name      = "terraformrc"
     namespace = var.product_namespace
@@ -35,19 +38,11 @@ resource "kubernetes_secret" "tfe-workspace" {
   type = "Opaque"
 }
 
-# Create config-map with non-sensitive terraform outputs for the tfe workspace
-resource "kubernetes_config_map" "tf-output" {
-  metadata {
-    name = "tf-output-${var.project}-${local.name_suffix}"
-  }
-
-  data = {
-    tfe_ssh_key_id = var.tfe_ssh_key_id
-  }
-}
-
 # Create secret to allow kubernetes access to the Container Registry
 resource "kubernetes_secret" "container-registry-secret" {
+  depends_on = [
+    kubernetes_namespace.offering
+  ]
   metadata {
     name      = "dockerconfigjson-ghcr"
     namespace = var.product_namespace
@@ -61,6 +56,7 @@ resource "kubernetes_secret" "container-registry-secret" {
 }
 
 resource "kubernetes_manifest" "terraform-operator-egress" {
+  count = var.create_terraform_operator_egress ? 1 : 0
   manifest = {
     "apiVersion" = "networking.istio.io/v1beta1"
     "kind"       = "ServiceEntry"
@@ -76,8 +72,8 @@ resource "kubernetes_manifest" "terraform-operator-egress" {
       "location" = "MESH_EXTERNAL"
       "ports" = [
         {
-          "name" = "https",
-          "number" = 443
+          "name"     = "https",
+          "number"   = 443
           "protocol" = "HTTPS"
         }
       ]
