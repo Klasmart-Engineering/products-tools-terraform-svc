@@ -70,7 +70,7 @@ variable "logs_bucket_id" {
 
 # ArgoCD
 variable "argocd_namespace" {
-  description = "The kubernetes namespace which the argocd resources live"
+  description = "The kubernetes namespace where the argocd resources live"
   type        = string
   default     = "argocd"
 }

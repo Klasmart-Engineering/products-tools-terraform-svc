@@ -52,7 +52,7 @@ resource "argocd_application" "tfe-operator" {
     kubernetes_secret.tfe-workspace
   ]
   metadata {
-    name      = "tfe-operator-${local.name_suffix}"
+    name      = "${var.project}tfe-operator-${local.name_suffix}"
     namespace = var.argocd_namespace
     labels = {
       region = var.region
